@@ -1,17 +1,17 @@
 package arreglos.tienda.interfaz;
 
+import arreglos.tienda.modelo.AppStore;
 import arreglos.tienda.modelo.Juego;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 public class MainTienda {
+    private static Scanner sc = new Scanner(System.in);
+    private static AppStore as1 = new AppStore();
+
     static void main() {
-        Scanner sc = new Scanner(System.in);
-        String nombre;
-        String categoria;
-        int tamanio;
-        double precio;
-        int licenciasDisponibles;
+        as1.inicializarDatos();
         int opc;
         int cantidad;
         do{
@@ -19,10 +19,10 @@ public class MainTienda {
             opc = Integer.parseInt(sc.nextLine());
             switch (opc){
                 case 1:{
-
+                    ingresarJuego();
                 }break;
                 case 2:{
-
+                    mostrarJuegos();
                 }break;
                 case 3:{
 
@@ -55,5 +55,34 @@ public class MainTienda {
         System.out.println("6. Juego más vendido");
         System.out.println("7. Salir");
         System.out.print("Ingrese una opcion: ");
+    }
+
+    public static void ingresarJuego(){
+        System.out.println("*******Ingreso de datos********");
+        System.out.print("Ingrese el nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("Ingrese la categoria: ");
+        String categoria = sc.nextLine();
+        System.out.print("Ingrese el tamanio: ");
+        int tamanio = Integer.parseInt(sc.nextLine());
+        System.out.print("Ingrese el precio: ");
+        double precio = Double.parseDouble(sc.nextLine());
+        System.out.print("Ingrese el stock inicial: ");
+        int licenciasDisponibles = Integer.parseInt(sc.nextLine());
+        if(as1.agregarJuego(new Juego(nombre,categoria,tamanio,precio,licenciasDisponibles))){
+            JOptionPane.showMessageDialog(null,"Juego agregado con éxito");
+        }else
+            JOptionPane.showMessageDialog(null,"No fue posible agregar el Juego");
+    }
+    public static void mostrarJuegos(){
+        Juego juegos[] = as1.getJuegos();
+        for(Juego j : juegos){
+            if(j != null){
+                System.out.println(j);
+            }else {
+                System.out.println("No hay mas juegos");
+                return;
+            }
+        }
     }
 }
